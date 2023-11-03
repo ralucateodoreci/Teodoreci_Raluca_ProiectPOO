@@ -1,0 +1,360 @@
+#include <iostream>
+using namespace std;
+
+class Avion {
+private:
+    int id;
+    string nume;
+    int nrMotoare;
+    int* varsteMotoare;
+    static int dimensiunilearipilor;
+
+public:
+    Avion() : id(100) {
+        this->nume = "Avion";
+        this->nrMotoare = 0;
+        this->varsteMotoare = nullptr;
+    }
+
+    Avion(int idNou, string nume) : id(idNou) {
+        this->nume = nume;
+        this->nrMotoare = 0;
+        this->varsteMotoare = nullptr;
+    }
+
+    Avion(int id, string nume, int nrMotoare, int* varsteMotoare) : id(id), nume(nume), nrMotoare(nrMotoare) {
+        if (nrMotoare != 0) {
+            this->varsteMotoare = new int[nrMotoare];
+            for (int i = 0; i < nrMotoare; i++) {
+                this->varsteMotoare[i] = varsteMotoare[i];
+            }
+        }
+        else {
+            this->varsteMotoare = nullptr;
+        }
+    }
+
+    Avion(const Avion& other) : id(other.id), nume(other.nume), nrMotoare(other.nrMotoare) {
+        if (other.nrMotoare != 0) {
+            this->varsteMotoare = new int[other.nrMotoare];
+            for (int i = 0; i < other.nrMotoare; i++) {
+                this->varsteMotoare[i] = other.varsteMotoare[i];
+            }
+        }
+        else {
+            this->varsteMotoare = nullptr;
+        }
+    }
+
+    ~Avion() {
+        if (this->varsteMotoare != nullptr) {
+            delete[] this->varsteMotoare;
+        }
+    }
+
+    int getID() const {
+        return id;
+    }
+
+    void setNume(string nume) {
+        this->nume = nume;
+    }
+
+    string getNume() const {
+        return nume;
+    }
+
+    int getNrMotoare() const {
+        return nrMotoare;
+    }
+
+    void setNrMotoare(int nr) {
+        nrMotoare = nr;
+    }
+
+    int* getVarsteMotoare() const {
+        return varsteMotoare;
+    }
+
+    static int getDimensiunileAripilor() {
+        return dimensiunilearipilor;
+    }
+
+    static void setDimensiunileAripilor(int dimensiuni) {
+        dimensiunilearipilor = dimensiuni;
+    }
+
+    void afisare() {
+        cout << "id: " << id << ", nume: " << nume << ", dimensiuni aripi: " << dimensiunilearipilor << ", nr motoare: " << nrMotoare << ", varste: ";
+        if (varsteMotoare != nullptr) {
+            for (int i = 0; i < nrMotoare; i++) {
+                cout << varsteMotoare[i] << ", ";
+            }
+        }
+        else {
+            cout << "-";
+        }
+        cout << endl;
+    }
+};
+
+int Avion::dimensiunilearipilor = 2;
+
+class Tren {
+private:
+    int id;
+    string nume;
+    int nrVagoane;
+    int* varsteVagoane;
+    static int viteza;
+
+public:
+    Tren() : id(100) {
+        this->nume = "Tren";
+        this->nrVagoane = 0;
+        this->varsteVagoane = nullptr;
+    }
+
+    Tren(int idNou, string nume) : id(idNou) {
+        this->nume = nume;
+        this->nrVagoane = 0;
+        this->varsteVagoane = nullptr;
+    }
+
+    Tren(int id, string nume, int nrVagoane, int* varsteVagoane) : id(id), nume(nume), nrVagoane(nrVagoane) {
+        if (nrVagoane != 0) {
+            this->varsteVagoane = new int[nrVagoane];
+            for (int i = 0; i < nrVagoane; i++) {
+                this->varsteVagoane[i] = varsteVagoane[i];
+            }
+        }
+        else {
+            this->varsteVagoane = nullptr;
+        }
+    }
+
+    Tren(const Tren& other) : id(other.id), nume(other.nume), nrVagoane(other.nrVagoane) {
+        if (other.nrVagoane != 0) {
+            this->varsteVagoane = new int[other.nrVagoane];
+            for (int i = 0; i < other.nrVagoane; i++) {
+                this->varsteVagoane[i] = other.varsteVagoane[i];
+            }
+        }
+        else {
+            this->varsteVagoane = nullptr;
+        }
+    }
+
+    ~Tren() {
+        if (this->varsteVagoane != nullptr) {
+            delete[] this->varsteVagoane;
+        }
+    }
+
+    int getID() const {
+        return id;
+    }
+
+    void setNume(string nume) {
+        this->nume = nume;
+    }
+
+    string getNume() const {
+        return nume;
+    }
+
+    int getNrVagoane() const {
+        return nrVagoane;
+    }
+
+    void setNrVagoane(int nr) {
+        nrVagoane = nr;
+    }
+
+    int* getVarsteVagoane() const {
+        return varsteVagoane;
+    }
+
+    static int getViteza() {
+        return viteza;
+    }
+
+    static void setViteza(int viteza) {
+        Tren::viteza = viteza;
+    }
+
+    void afisare() {
+        cout << "id: " << id << ", nume: " << nume << ", viteza: " << viteza << ", nr vagoane: " << nrVagoane << ", varste: ";
+        if (varsteVagoane != nullptr) {
+            for (int i = 0; i < nrVagoane; i++) {
+                cout << varsteVagoane[i] << ", ";
+            }
+        }
+        else {
+            cout << "-";
+        }
+        cout << endl;
+    }
+};
+
+int Tren::viteza = 2;
+
+class Rulota {
+private:
+    int id;
+    string nume;
+    int nrRoti;
+    int* dimensiuniRoti;
+    static int gradPoluare;
+
+public:
+    Rulota() : id(100) {
+        this->nume = "Rulota";
+        this->nrRoti = 0;
+        this->dimensiuniRoti = nullptr;
+    }
+
+    Rulota(int idNou, string nume) : id(idNou) {
+        this->nume = nume;
+        this->nrRoti = 0;
+        this->dimensiuniRoti = nullptr;
+    }
+
+    Rulota(int id, string nume, int nrRoti, int* dimensiuniRoti) : id(id), nume(nume), nrRoti(nrRoti) {
+        if (nrRoti != 0) {
+            this->dimensiuniRoti = new int[nrRoti];
+            for (int i = 0; i < nrRoti; i++) {
+                this->dimensiuniRoti[i] = dimensiuniRoti[i];
+            }
+        }
+        else {
+            this->dimensiuniRoti = nullptr;
+        }
+    }
+
+    Rulota(const Rulota& other) : id(other.id), nume(other.nume), nrRoti(other.nrRoti) {
+        if (other.nrRoti != 0) {
+            this->dimensiuniRoti = new int[other.nrRoti];
+            for (int i = 0; i < other.nrRoti; i++) {
+                this->dimensiuniRoti[i] = other.dimensiuniRoti[i];
+            }
+        }
+        else {
+            this->dimensiuniRoti = nullptr;
+        }
+    }
+
+    ~Rulota() {
+        if (this->dimensiuniRoti != nullptr) {
+            delete[] this->dimensiuniRoti;
+        }
+    }
+
+    int getID() const {
+        return id;
+    }
+
+    void setNume(string nume) {
+        this->nume = nume;
+    }
+
+    string getNume() const {
+        return nume;
+    }
+
+    int getNrRoti() const {
+        return nrRoti;
+    }
+
+    void setNrRoti(int nr) {
+        nrRoti = nr;
+    }
+
+    int* getDimensiuniRoti() const {
+        return dimensiuniRoti;
+    }
+
+    static int getGradPoluare() {
+        return gradPoluare;
+    }
+
+    static void setGradPoluare(int poluare) {
+        gradPoluare = poluare;
+    }
+
+    void afisare() {
+        cout << "id: " << id << ", nume: " << nume << ", grad de poluare: " << gradPoluare << ", nr Roti: " << nrRoti << ", dimensiuni roti: ";
+        if (dimensiuniRoti != nullptr) {
+            for (int i = 0; i < nrRoti; i++) {
+                cout << dimensiuniRoti[i] << ", ";
+            }
+        }
+        else {
+            cout << "-";
+        }
+        cout << endl;
+    }
+};
+
+int Rulota::gradPoluare = 2;
+
+
+void ProcessAvion(const Avion& avion);
+void ProcessTren(const Tren& tren);
+
+int main() {
+    int* varste;
+    varste = new int[2];
+    varste[0] = 5;
+    varste[1] = 10;
+
+    Avion avion1;
+    avion1.afisare();
+
+    Avion avion2(101, "Avion2", 2, varste);
+    avion2.afisare();
+
+    Avion avion3(7, "Tarom");
+    avion3.afisare();
+
+    Tren tren1;
+    tren1.afisare();
+
+    Tren tren2(101, "Tren2", 2, varste);
+    tren2.afisare();
+
+    Tren tren3(7, "cfr");
+    tren3.afisare();
+
+    Rulota rulota1;
+    rulota1.afisare();
+
+    Rulota rulota2(101, "Rulota2", 2, varste);
+    rulota2.afisare();
+
+    Rulota rulota3(7, "Bucuresti");
+    rulota3.afisare();
+
+    
+    ProcessAvion(avion1);
+    ProcessTren(tren2);
+
+    
+    cout << "Avion1 Nume: " << avion1.getNume() << endl;
+    cout << "Tren2 Viteza: " << Tren::getViteza() << endl;
+
+    
+    delete[] varste;
+
+    return 0;
+}
+
+void ProcessAvion(const Avion& avion) {
+    cout << "Processing Avion: " << avion.getNume() << endl;
+}
+
+
+void ProcessTren(const Tren& tren) {
+    cout << "Processing Tren: " << tren.getNume() << endl;
+   
+}

@@ -1,0 +1,332 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Avion {
+private:
+    int id;
+    string nume;
+    int nrMotoare;
+    int* varsteMotoare;
+
+public:
+    Avion() : id(0), nume(""), nrMotoare(0), varsteMotoare(nullptr) {}
+
+    Avion(int id, const string& nume, int nrMotoare, int* varste) : id(id), nume(nume), nrMotoare(nrMotoare) {
+        if (nrMotoare > 0) {
+            varsteMotoare = new int[nrMotoare];
+            for (int i = 0; i < nrMotoare; i++) {
+                varsteMotoare[i] = varste[i];
+            }
+        }
+        else {
+            varsteMotoare = nullptr;
+        }
+    }
+
+    Avion(const Avion& other) : id(other.id), nume(other.nume), nrMotoare(other.nrMotoare) {
+        if (other.nrMotoare > 0) {
+            varsteMotoare = new int[other.nrMotoare];
+            for (int i = 0; i < other.nrMotoare; i++) {
+                varsteMotoare[i] = other.varsteMotoare[i];
+            }
+        }
+        else {
+            varsteMotoare = nullptr;
+        }
+    }
+
+    Avion& operator=(const Avion& other) {
+        if (this != &other) {
+            delete[] varsteMotoare;
+            id = other.id;
+            nume = other.nume;
+            nrMotoare = other.nrMotoare;
+            if (other.nrMotoare > 0) {
+                varsteMotoare = new int[other.nrMotoare];
+                for (int i = 0; i < other.nrMotoare; i++) {
+                    varsteMotoare[i] = other.varsteMotoare[i];
+                }
+            }
+            else {
+                varsteMotoare = nullptr;
+            }
+        }
+        return *this;
+    }
+
+    Avion operator+(const Avion& other) {
+        Avion result(*this);
+        result.nrMotoare += other.nrMotoare;
+        return result;
+    }
+
+    Avion operator-(const Avion& other) {
+        Avion result(*this);
+        result.nrMotoare -= other.nrMotoare;
+        if (result.nrMotoare < 0) {
+            result.nrMotoare = 0;
+        }
+        return result;
+    }
+
+    bool operator==(const Avion& other) {
+        return nume == other.nume;
+    }
+
+    void afisare() {
+        cout << "ID: " << id << ", Nume: " << nume << ", Numere de motoare: " << nrMotoare << endl;
+    }
+
+    int getId() const { return id; }
+    string getNume() const { return nume; }
+
+    ~Avion() {
+        delete[] varsteMotoare;
+    }
+};
+
+class Tren {
+private:
+    int id;
+    string nume;
+    int nrVagoane;
+    int* varsteVagoane;
+
+public:
+    Tren() : id(0), nume(""), nrVagoane(0), varsteVagoane(nullptr) {}
+
+    Tren(int id, const string& nume, int nrVagoane, int* varste) : id(id), nume(nume), nrVagoane(nrVagoane) {
+        if (nrVagoane > 0) {
+            varsteVagoane = new int[nrVagoane];
+            for (int i = 0; i < nrVagoane; i++) {
+                varsteVagoane[i] = varste[i];
+            }
+        }
+        else {
+            varsteVagoane = nullptr;
+        }
+    }
+
+    Tren(const Tren& other) : id(other.id), nume(other.nume), nrVagoane(other.nrVagoane) {
+        if (other.nrVagoane > 0) {
+            varsteVagoane = new int[other.nrVagoane];
+            for (int i = 0; i < other.nrVagoane; i++) {
+                varsteVagoane[i] = other.varsteVagoane[i];
+            }
+        }
+        else {
+            varsteVagoane = nullptr;
+        }
+    }
+
+    Tren& operator=(const Tren& other) {
+        if (this != &other) {
+            delete[] varsteVagoane;
+            id = other.id;
+            nume = other.nume;
+            nrVagoane = other.nrVagoane;
+            if (other.nrVagoane > 0) {
+                varsteVagoane = new int[other.nrVagoane];
+                for (int i = 0; i < other.nrVagoane; i++) {
+                    varsteVagoane[i] = other.varsteVagoane[i];
+                }
+            }
+            else {
+                varsteVagoane = nullptr;
+            }
+        }
+        return *this;
+    }
+
+    Tren operator+(const Tren& other) {
+        Tren result(*this);
+        result.nrVagoane += other.nrVagoane;
+        return result;
+    }
+
+    Tren operator-(const Tren& other) {
+        Tren result(*this);
+        result.nrVagoane -= other.nrVagoane;
+        if (result.nrVagoane < 0) {
+            result.nrVagoane = 0;
+        }
+        return result;
+    }
+
+    bool operator==(const Tren& other) {
+        return nume == other.nume;
+    }
+
+    void afisare() {
+        cout << "ID: " << id << ", Nume: " << nume << ", Numere de vagoane: " << nrVagoane << endl;
+    }
+
+    int getId() const { return id; }
+    string getNume() const { return nume; }
+
+    ~Tren() {
+        delete[] varsteVagoane;
+    }
+};
+
+class Rulota {
+private:
+    int id;
+    string nume;
+    int nrRoti;
+    int* dimensiuniRoti;
+
+public:
+    Rulota() : id(0), nume(""), nrRoti(0), dimensiuniRoti(nullptr) {}
+
+    Rulota(int id, const string& nume, int nrRoti, int* dimensiuni) : id(id), nume(nume), nrRoti(nrRoti) {
+        if (nrRoti > 0) {
+            dimensiuniRoti = new int[nrRoti];
+            for (int i = 0; i < nrRoti; i++) {
+                dimensiuniRoti[i] = dimensiuni[i];
+            }
+        }
+        else {
+            dimensiuniRoti = nullptr;
+        }
+    }
+
+    Rulota(const Rulota& other) : id(other.id), nume(other.nume), nrRoti(other.nrRoti) {
+        if (other.nrRoti > 0) {
+            dimensiuniRoti = new int[other.nrRoti];
+            for (int i = 0; i < other.nrRoti; i++) {
+                dimensiuniRoti[i] = other.dimensiuniRoti[i];
+            }
+        }
+        else {
+            dimensiuniRoti = nullptr;
+        }
+    }
+
+    Rulota& operator=(const Rulota& other) {
+        if (this != &other) {
+            delete[] dimensiuniRoti;
+            id = other.id;
+            nume = other.nume;
+            nrRoti = other.nrRoti;
+            if (other.nrRoti > 0) {
+                dimensiuniRoti = new int[other.nrRoti];
+                for (int i = 0; i < other.nrRoti; i++) {
+                    dimensiuniRoti[i] = other.dimensiuniRoti[i];
+                }
+            }
+            else {
+                dimensiuniRoti = nullptr;
+            }
+        }
+        return *this;
+    }
+
+    Rulota operator+(const Rulota& other) {
+        Rulota result(*this);
+        result.nrRoti += other.nrRoti;
+        return result;
+    }
+
+    Rulota operator-(const Rulota& other) {
+        Rulota result(*this);
+        result.nrRoti -= other.nrRoti;
+        if (result.nrRoti < 0) {
+            result.nrRoti = 0;
+        }
+        return result;
+    }
+
+    bool operator==(const Rulota& other) {
+        return nume == other.nume;
+    }
+
+    void afisare() {
+        cout << "ID: " << id << ", Nume: " << nume << ", Numere de roti: " << nrRoti << endl;
+    }
+
+    int getId() const { return id; }
+    string getNume() const { return nume; }
+
+    ~Rulota() {
+        delete[] dimensiuniRoti;
+    }
+};
+
+int main() {
+    int varsteAvion[] = { 5, 10 };
+    int varsteTren[] = { 3, 7 };
+    int dimensiuniRulota[] = { 15, 20 };
+
+    Avion avion1;
+    avion1.afisare();
+
+    Avion avion2(101, "Avion2", 2, varsteAvion);
+    avion2.afisare();
+
+    Avion avion3(7, "Tarom", 2, varsteAvion);
+    avion3.afisare();
+
+    Tren tren1;
+    tren1.afisare();
+
+    Tren tren2(102, "Tren2", 2, varsteTren);
+    tren2.afisare();
+
+    Tren tren3(8, "CFR", 2, varsteTren);
+    tren3.afisare();
+
+    Rulota rulota1;
+    rulota1.afisare();
+
+    Rulota rulota2(103, "Rulota2", 2, dimensiuniRulota);
+    rulota2.afisare();
+
+    Rulota rulota3(9, "Bucuresti", 2, dimensiuniRulota);
+    rulota3.afisare();
+
+    // Operatorul de atribuire
+    Avion avion4 = avion2;
+    Tren tren4 = tren2;
+    Rulota rulota4 = rulota2;
+
+    // Operatorul + pentru adunare
+    Avion avion5 = avion1 + avion2;
+    Tren tren5 = tren1 + tren2;
+    Rulota rulota5 = rulota1 + rulota2;
+
+    // Operatorul - pentru scădere
+    Avion avion6 = avion2 - avion1;
+    Tren tren6 = tren2 - tren1;
+    Rulota rulota6 = rulota2 - rulota1;
+
+    // Operatorul de comparare
+    if (avion1 == avion3) {
+        cout << "Avion1 și Avion3 au același nume." << endl;
+    }
+    else {
+        cout << "Avion1 și Avion3 nu au același nume." << endl;
+    }
+
+    if (tren1 == tren3) {
+        cout << "Tren1 și Tren3 au același nume." << endl;
+    }
+    else {
+        cout << "Tren1 și Tren3 nu au același nume." << endl;
+    }
+
+    if (rulota1 == rulota3) {
+        cout << "Rulota1 și Rulota3 au același nume." << endl;
+    }
+    else {
+        cout << "Rulota1 și Rulota3 nu au același nume." << endl;
+    }
+
+    // Apelul funcțiilor prietene pentru adunare
+    avion1 = avion1 + avion2;
+    tren1 = tren1 + tren2;
+    rulota1 = rulota1 + rulota2;
+
+    
+}

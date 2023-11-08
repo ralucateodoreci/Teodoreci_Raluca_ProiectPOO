@@ -1,0 +1,609 @@
+#include <iostream>
+
+using namespace std;
+//domeniul este mijloace transport iar obiectele sunt: avion, tren, rulota
+
+class avion
+{
+private:
+	const int id;
+	string numeAvion;
+	int nrElementeAvion;
+	string* elementeAvion;
+	float pret;
+	static string numeFirma;
+	static int nrTotalAvioane;
+
+public:
+	avion() : id(nrTotalAvioane++)
+	{
+		this->numeAvion = "Avion mic";
+		this->nrElementeAvion = 0;
+		this->elementeAvion = NULL;
+		this->pret = 20.000;
+	}
+
+	avion(string numeAvion, float pret) : id(nrTotalAvioane++)
+	{
+		this->numeAvion = numeAvion;
+		this->nrElementeAvion = 0;
+		this->elementeAvion = NULL;
+		this->pret = pret;
+	}
+
+	avion(string numeAvion, int nrElementeAvion, string* elementeAvion, float pret) :id(nrTotalAvioane++)
+	{
+		this->numeAvion = numeAvion;
+		this->nrElementeAvion = nrElementeAvion;
+		this->elementeAvion = new string[nrElementeAvion];
+		for (int i = 0; i < nrElementeAvion; i++)
+			this->elementeAvion[i] = elementeAvion[i];
+		this->pret = pret;
+	}
+
+	~avion()
+	{
+		if (this->elementeAvion != NULL)
+			delete[]this->elementeAvion;
+	}
+
+	avion(const avion& a) :id(nrTotalAvioane++)
+	{
+		this->numeAvion = a.numeAvion;
+		this->nrElementeAvion = a.nrElementeAvion;
+		this->elementeAvion = new string[a.nrElementeAvion];
+		for (int i = 0; i < a.nrElementeAvion; i++)
+			this->elementeAvion[i] = a.elementeAvion[i];
+		this->pret = a.pret;
+
+	}
+
+	const int  getId()
+	{
+		return id;
+	}
+
+	string getNumeAvion()
+	{
+		return numeAvion;
+	}
+
+	int getNrElementeAvion()
+	{
+		return nrElementeAvion;
+	}
+
+	string* getElementeAvion()
+	{
+		return elementeAvion;
+	}
+
+	float getPret()
+	{
+		return pret;
+	}
+
+	static string getNumeFirma()
+	{
+		return numeFirma;
+	}
+
+	static int getNrTotalAvioane()
+	{
+		return nrTotalAvioane - 1;
+	}
+
+	void setPret(float pret)
+	{
+		if (pret > 0)
+			this->pret = pret;
+	}
+
+	void setNumeAvion(string numeAvion)
+	{
+		this->numeAvion = numeAvion;
+	}
+
+	void setNrElementeAvion(int nrElementeAvion)
+	{
+		this->nrElementeAvion = nrElementeAvion;
+	}
+
+	void setElementeAvion(int nrElAvion, string* elAvion)
+	{
+		if (nrElAvion > 0)
+		{
+			this->nrElementeAvion = nrElAvion;
+			if (this->elementeAvion != NULL)
+			{
+				delete[]this->elementeAvion;
+			}
+			this->elementeAvion = new string[nrElAvion];
+			for (int i = 0; i < nrElAvion; i++)
+				this->elementeAvion[i] = elAvion[i];
+		}
+	}
+
+
+	void afisareAvion()
+	{
+		cout << "Avionul " << id << " de astazi de la " << numeFirma << " este: " << numeAvion << " si costa " << pret << " lei. Acesta contine " << nrElementeAvion << " obiecte, care sunt: ";
+		if (nrElementeAvion > 0)
+		{
+			for (int i = 0; i < nrElementeAvion - 1; i++)
+				cout << elementeAvion[i] << ", ";
+			cout << elementeAvion[nrElementeAvion - 1];
+		}
+		else cout << "nu sunt disponibile informatii";
+		cout << endl;
+	}
+
+	void adaugareElementeAvion(string numeElement)
+	{
+		string* aux = new string[this->nrElementeAvion + 1];
+		for (int i = 1; i < this->nrElementeAvion; i++)
+			aux[i] = this->elementeAvion[i];
+		aux[this->nrElementeAvion] = numeElement;
+		this->nrElementeAvion++;
+		if (this->elementeAvion)
+			delete[] this->elementeAvion;
+		this->elementeAvion = aux;
+	}
+
+	friend bool cautaElement(const avion& a, string elemCautat);
+
+};
+
+bool cautaElement(const avion& a, string elemCautat)
+{
+	for (int i = 0; i < a.nrElementeAvion; i++)
+	{
+		if (a.elementeAvion[i] == elemCautat)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+string avion::numeFirma = "Firma Tarom";
+int avion::nrTotalAvioane = 1;
+
+class tren
+{
+private:
+	const int nrBilet;
+	string numeTren;
+	static int nrTotalTrenuri;
+	int nrPreferinte;
+	string* preferinteTren;
+	float buget;
+	static int nrGenerator;
+
+
+public:
+
+	tren() : nrBilet(nrGenerator++)
+	{
+		this->numeTren = "Astra 2000";
+		this->nrPreferinte = 0;
+		this->preferinteTren = NULL;
+		this->buget = 30;
+		tren::nrTotalTrenuri++;
+	}
+
+	tren(string numeTren) : nrBilet(nrGenerator++)
+	{
+		this->numeTren = numeTren;
+		this->nrPreferinte = 0;
+		this->preferinteTren = NULL;
+		this->buget = 40;
+		tren::nrTotalTrenuri++;
+	}
+
+	tren(string numeTren, int nrPreferinte, string* preferinteTren, float buget) : nrBilet(nrGenerator++)
+	{
+		this->numeTren = numeTren;
+		this->nrPreferinte = nrPreferinte;
+		this->preferinteTren = new string[nrPreferinte];
+		for (int i = 0; i < nrPreferinte; i++)
+			this->preferinteTren[i] = preferinteTren[i];
+		this->buget = buget;
+		tren::nrTotalTrenuri++;
+	}
+
+	~tren()
+	{
+		if (this->preferinteTren != NULL)
+			delete[]this->preferinteTren;
+	}
+
+	const int getNrBilet()
+	{
+		return nrBilet;
+	}
+
+	string getNumeTrent()
+	{
+		return numeTren;
+	}
+
+	static int getNrTrenuri()
+	{
+		return nrTotalTrenuri;
+	}
+
+	static int getNrGenerator()
+	{
+		return nrGenerator - 1;
+	}
+
+	int getNrPreferinte()
+	{
+		return nrPreferinte;
+	}
+
+	string* getPreferinteTren()
+	{
+		return preferinteTren;
+	}
+
+	float getBuget()
+	{
+		return buget;
+	}
+
+	void setNumeTren(string numeTren)
+	{
+		this->numeTren = numeTren;
+	}
+
+	void setNrPreferinte(int nrPref)
+	{
+		this->nrPreferinte = nrPref;
+	}
+
+	void setBuget(float b)
+	{
+		this->buget = b;
+	}
+
+	void setPreferinteTren(int nrPref, string* pref)
+	{
+		if (nrPref > 0)
+		{
+			this->nrPreferinte = nrPref;
+			if (this->preferinteTren != NULL)
+			{
+				delete[]this->preferinteTren;
+			}
+			this->preferinteTren = new string[nrPref];
+			for (int i = 0; i < nrPref; i++)
+				this->preferinteTren[i] = pref[i];
+		}
+	}
+
+	tren(const tren& t) :nrBilet(nrGenerator++)
+	{
+		this->numeTren = t.numeTren;
+		this->nrPreferinte = t.nrPreferinte;
+		this->preferinteTren = new string[t.nrPreferinte];
+		for (int i = 0; i < nrPreferinte; i++)
+			this->preferinteTren[i] = t.preferinteTren[i];
+		this->buget = t.buget;
+		tren::nrTotalTrenuri++;
+	}
+
+	void afisareTren()
+	{
+		cout << "Pasagerul " << numeTren << " cu numar bilet " << nrBilet << " are un buget de " << buget << " si " << nrPreferinte << " preferinte trenuri: ";
+		if (nrPreferinte > 0)
+		{
+			for (int i = 0; i < nrPreferinte - 1; i++)
+				cout << preferinteTren[i] << ", ";
+			cout << preferinteTren[nrPreferinte - 1];
+		}
+		else cout << "nu sunt disponibile informatii";
+		cout << endl;
+	}
+
+	void adaugarePreferinteTrenuri(string vagon)
+	{
+		string* aux = new string[this->nrPreferinte + 1];
+		for (int i = 0; i < this->nrPreferinte; i++)
+			aux[i] = this->preferinteTren[i];
+		aux[nrPreferinte] = vagon;
+		this->nrPreferinte++;
+		if (this->preferinteTren)
+			delete[] this->preferinteTren;
+		this->preferinteTren = aux;
+	}
+
+};
+
+int tren::nrTotalTrenuri = 1;
+int tren::nrGenerator = 1000;
+
+class rulota
+{
+private:
+	const int tipRulota;
+	string numeFirma;
+	int nrUsi;
+	static int nrGenerator;
+	int nrRuloteDisponibile;
+	string* RuloteDisponibile;
+	bool esteScumpa;
+	
+
+public:
+	rulota() : tipRulota(nrGenerator++)
+	{
+		this->numeFirma = "Rulota Vivo";
+		this->nrUsi = 3;
+		this->nrRuloteDisponibile = 0;
+		this->RuloteDisponibile = NULL;
+		this->esteScumpa = true;
+	
+	}
+
+	rulota(string numeFirma) : tipRulota(nrGenerator++)
+	{
+		this->numeFirma = numeFirma;
+		this->nrUsi = 5;
+		this->nrRuloteDisponibile = 0;
+		this->RuloteDisponibile = NULL;
+		this->esteScumpa = false;
+	
+	}
+
+	rulota(string numeFirma, int nrUsi, int nrRuloteDisponibile, string* RuloteDisponibile, bool esteScumpa) : tipRulota(nrGenerator++)
+	{
+		this->numeFirma = numeFirma;
+		this->nrUsi = nrUsi;
+		this->esteScumpa = esteScumpa;
+		this->nrRuloteDisponibile = nrRuloteDisponibile;
+		this->RuloteDisponibile = new string[nrRuloteDisponibile];
+		for (int i = 0; i < nrRuloteDisponibile; i++)
+			this->RuloteDisponibile[i] = RuloteDisponibile[i];
+	}
+
+	~rulota()
+	{
+		if (this->RuloteDisponibile != NULL)
+			delete[]this->RuloteDisponibile;
+	}
+
+	const int getTipRulota()
+	{
+		return tipRulota;
+	}
+
+	string getNumeFirma()
+	{
+		return numeFirma;
+	}
+
+	int getNrUsi()
+	{
+		return nrUsi;
+	}
+
+	static int getNrGenerator()
+	{
+		return nrGenerator;
+	}
+
+	int getNrRuloteDisponibile()
+	{
+		return nrRuloteDisponibile;
+	}
+
+	string* getRuloteDisponibile()
+	{
+		return RuloteDisponibile;
+	}
+
+	bool getEsteScumpa()
+	{
+		return esteScumpa;
+	}
+
+	void setNumeFirma(string nume)
+	{
+		this->numeFirma = nume;
+	}
+
+	void setNrUsi(int buc)
+	{
+		this->nrUsi = buc;
+	}
+
+	void setNrRuloteDisponibile(int nr)
+	{
+		this->nrRuloteDisponibile = nr;
+	}
+
+	void setRuloteDisponibile(int nr, string* lista)
+	{
+		this->nrRuloteDisponibile = nr;
+		if (this->RuloteDisponibile != NULL)
+			delete[]this->RuloteDisponibile;
+		this->RuloteDisponibile = new string[nr];
+		for (int i = 0; i < nr; i++)
+			this->RuloteDisponibile[i] = lista[i];
+	}
+
+	void setEsteScumpa(bool scumpa)
+	{
+		this->esteScumpa = scumpa;
+	}
+
+	rulota(const rulota& r) :tipRulota(nrGenerator++)
+	{
+		this->numeFirma = r.numeFirma;
+		this->nrUsi = r.nrUsi;
+		this->esteScumpa = r.esteScumpa;
+		this->nrRuloteDisponibile = r.nrRuloteDisponibile;
+		this->RuloteDisponibile = new string[r.nrRuloteDisponibile];
+		for (int i = 0; i < r.nrRuloteDisponibile; i++)
+			this->RuloteDisponibile[i] = r.RuloteDisponibile[i];
+	}
+
+	void afisareRulote()
+	{
+		cout << "Rulota de la " << numeFirma << ", cu tipul rulotei " << tipRulota;
+		if (esteScumpa) cout << " este scumpa  ";
+		else cout << " este ieftina ";
+		cout << "si are " << nrUsi << " firma care a pregatit " << nrRuloteDisponibile << " rulote: ";
+		if (nrRuloteDisponibile > 0)
+		{
+			for (int i = 0; i < nrRuloteDisponibile - 1; i++)
+				cout << RuloteDisponibile[i] << ", ";
+			cout << RuloteDisponibile[nrRuloteDisponibile - 1];
+		}
+		else cout << "nu sunt disponibile informatii";
+		cout << endl;
+	}
+
+	void adaugaUsi(int nrUsiNoi)
+	{
+		nrUsi += nrUsiNoi;
+		cout << "Au fost adaugate " << nrUsiNoi << " rulote, nr total fiind: " << nrUsi << " ." << endl;
+	}
+
+	void adaugareRulotaDisponibila(string rulotaDisp)
+	{
+		string* aux = new string[this->nrRuloteDisponibile + 1];
+		for (int i = 0; i < this->nrRuloteDisponibile; i++)
+			aux[i] = this->RuloteDisponibile[i];
+		aux[nrRuloteDisponibile] = rulotaDisp;
+		this->nrRuloteDisponibile++;
+		if (this->RuloteDisponibile)
+			delete[] this->RuloteDisponibile;
+		this->RuloteDisponibile = aux;
+	}
+	friend void randamentRulote(const rulota& r, int nr);
+
+};
+
+void randamentRulote(const rulota& r, int nr)
+{
+	int aux = r.nrUsi * nr;
+	if (aux > r.nrRuloteDisponibile) cout << "Rulotele nu se misca suficient de repede.";
+	else cout << "Rulotele se misca suficient de repede. ";
+}
+int rulota::nrGenerator = 25670;
+
+void main()
+{
+	avion avion1;
+	avion1.afisareAvion();
+
+	avion avion2("Avion Mare", 23);
+	avion2.adaugareElementeAvion("Aripa avion");
+	avion2.afisareAvion();
+
+	string* elemAvion = new string[3];
+	elemAvion[0] = "Scaun";
+	elemAvion[1] = "Masa";
+	elemAvion[2] = "Motor";
+
+	avion avion3("Scaun Avion", 3, elemAvion, 27);
+	avion3.afisareAvion();
+
+
+	avion avion4(avion2);
+	avion4.afisareAvion();
+	cout << endl;
+
+	avion4.setPret(50.000);
+	avion4.setNrElementeAvion(3);
+	avion4.setNumeAvion("Avion marfa");
+	string* elavion = new string[avion4.getNrElementeAvion()];
+	elavion[0] = "Geam";
+	elavion[1] = "Mancare";
+	elavion[2] = "Bauturi";
+	avion4.setElementeAvion(avion4.getNrElementeAvion(), elavion);
+	cout << "Afisare cu get-eri: Avionul " << avion4.getId() << " de astazi de la " << avion4.getNumeFirma() << " este: " << avion4.getNumeAvion() << " si costa " << avion4.getPret() << " lei. Acesta contine " << avion4.getNrElementeAvion() << " obiecte, care sunt: ";
+	if (avion4.getNrElementeAvion() > 0)
+	{
+		for (int i = 0; i < avion4.getNrElementeAvion(); i++)
+			cout << avion4.getElementeAvion()[i] << ", ";
+	}
+	cout << endl;
+
+	if (cautaElement(avion2, "Piese motor"))
+		cout << "am gasit elementul";
+	else cout << "nu am gasit elementul";
+
+	cout << endl << avion4.getNrTotalAvioane();
+
+	cout << endl;
+
+	tren tren1;
+	tren1.afisareTren();
+
+	tren tren2("Astra 2010");
+	tren2.adaugarePreferinteTrenuri("Trenuri rapide");
+	tren2.afisareTren();
+
+	string* preferinte = new string[2];
+	preferinte[0] = "TrenBv";
+	preferinte[1] = "TrenCt";
+	tren tren3("Astra 2003", 2, preferinte, 37);
+	tren3.afisareTren();
+
+	tren tren4(tren1);
+	tren4.setNumeTren("Astra 2002");
+	tren4.setNrPreferinte(0);
+	tren4.setBuget(50);
+	tren4.setNrPreferinte(2);
+	string* pref = new string[tren4.getNrPreferinte()];
+	pref[0] = "TrenTm";
+	pref[1] = "TrenIs";
+	tren4.setPreferinteTren(tren4.getNrPreferinte(), pref);
+	
+		; if (tren4.getNrPreferinte() > 0)
+	{
+		for (int i = 0; i < tren4.getNrPreferinte() - 1; i++)
+			cout << tren4.getPreferinteTren()[i] << ", ";
+	}
+
+	cout << endl << "nr total de trenuri: " << tren::getNrTrenuri();
+	cout << endl;
+
+	rulota rulota1;
+	rulota1.afisareRulote();
+
+	rulota rulota2("Rulota X");
+	rulota2.afisareRulote();
+	rulota2.adaugaUsi(2);
+
+	string* rulote = new string[3];
+	rulote[0] = "R 1";
+	rulote[1] = "R 2";
+	rulote[2] = "R 3";
+	rulota rulota3("Rulota mica", 20, 3, rulote , true);
+	rulota3.afisareRulote();
+
+	rulota rulota4(rulota3);
+	rulota4.setNrUsi(12);
+	rulota4.setNrRuloteDisponibile(1);
+	rulota4.setNumeFirma("Firma Sportivilor");
+	string* lista = new string[rulota4.getNrRuloteDisponibile()];
+	lista[0] = "Rulota R";
+	rulota4.setRuloteDisponibile(rulota4.getNrRuloteDisponibile(), lista);
+	rulota4.setEsteScumpa(false);
+	cout << "Afisare cu get-eri: Rulota de la " << rulota4.getNumeFirma() << ", cu tipul rulotei " << rulota4.getTipRulota();
+	if (rulota4.getEsteScumpa()) cout << " este scumpa ";
+	else cout << " este  ieftina ";
+	cout << "si are " << rulota4.getNrUsi() << " lucratori care au pregatit " << rulota4.getNrRuloteDisponibile() << " rulote: ";
+	if (rulota4.getNrRuloteDisponibile() > 0)
+	{
+		for (int i = 0; i < rulota4.getNrRuloteDisponibile(); i++)
+			cout << rulota4.getRuloteDisponibile()[i] << ", ";
+	}
+	cout << endl;
+	randamentRulote(rulota1, 1);
+
+}

@@ -1,0 +1,650 @@
+#include <iostream>
+using namespace std;
+
+
+class Avion {
+private:
+    const int id;
+    string nume;
+    int intrariAvion;
+    int capacitate;
+    string* elementeAvion;
+    static int dimensiunileAvionului;
+public:
+    // Operatorul !
+    bool operator!() const {
+        return nume.empty() || elementeAvion == nullptr || intrariAvion <= 0;
+    }
+
+    // CONSTRUCTOR 1
+    Avion() : id(100) {
+        this->nume = "Airbus A380";
+        this->intrariAvion = 2;
+        this->capacitate = 200;
+        this->elementeAvion = new string[2];
+        this->elementeAvion[0] = "elementAvion 1";
+        this->elementeAvion[1] = "elementAvion 2";
+    }
+
+    // CONSTRUCTOR 2
+    Avion(int idNou, string nume) : id(idNou) {
+        this->nume = nume;
+    }
+
+    // CONSTRUCTOR 3
+    Avion(int id, string nume, int intrariAvion, int capacitate) : id(id) {
+        this->capacitate = capacitate;
+        this->nume = nume;
+        this->intrariAvion = intrariAvion;
+    }
+
+    // CONSTRUCTOR DE COPIERE
+    Avion(const Avion& other) : id(other.id) {
+        this->nume = other.nume;
+        this->intrariAvion = other.intrariAvion;
+        this->capacitate = other.capacitate;
+
+        if (other.elementeAvion != nullptr) {
+            this->elementeAvion = new string[other.intrariAvion];
+            for (int i = 0; i < other.intrariAvion; i++) {
+                this->elementeAvion[i] = other.elementeAvion[i];
+            }
+        }
+        else {
+            this->elementeAvion = nullptr;
+        }
+    }
+
+    // DESTRUCTOR
+    ~Avion() {
+        delete[] elementeAvion;
+    }
+
+    void afisare() {
+        cout << "---------------------------------------------------------" << endl;
+        cout << "Id ul avionului este:" << id << endl;
+        cout << "Numele avionului este: " << nume << endl;
+        cout << "Dimensiunea avionului este de " << Avion::dimensiunileAvionului << "m si are o capacitate de " << capacitate << endl;
+        cout << "Numarul intrarilor este de " << intrariAvion << endl;
+        cout << "ElementeAvion sunt:";
+        if (elementeAvion != nullptr) {
+            for (int i = 0; i < intrariAvion; i++) {
+                cout << elementeAvion[i] << " " << endl;
+            }
+        }
+        else {
+            cout << "-" << endl;
+        }
+        cout << "------------------------------------------------------" << endl;
+    }
+
+    // GETTERI
+    int getId() const {
+        return this->id;
+    }
+    
+
+
+    string getNume() {
+        return this->nume;
+    }
+
+    int getIntrariAvion() {
+        return this->intrariAvion;
+    }
+
+    string* getelementeAvion() {
+        return this->elementeAvion;
+    }
+
+    int getNumarelementeAvion() {
+        return intrariAvion;
+    }
+
+    static int getDimensiunileAvionului() {
+        return dimensiunileAvionului;
+    }
+
+    // SETTERI 
+    void setNume(const string& nume) {
+        this->nume = nume;
+    }
+
+    void setIntrariAvion(int intrari) {
+        this->intrariAvion = intrari;
+    }
+
+    void setCapacitate(int capacitate) {
+        this->capacitate = capacitate;
+    }
+
+    void setelementeAvion(const string* elementeAvion, int numarelementeAvion) {
+        if (this->elementeAvion != nullptr) {
+            delete[] this->elementeAvion;
+        }
+        this->elementeAvion = new string[numarelementeAvion];
+        for (int i = 0; i < numarelementeAvion; i++) {
+            this->elementeAvion[i] = elementeAvion[i];
+        }
+    }
+
+    static void setDimensiunileAvionului(int dimensiuni) {
+        if (dimensiuni > 0) {
+            dimensiunileAvionului = dimensiuni;
+        }
+    }
+
+    // Operatorul ++
+    Avion& operator++() {
+        this->capacitate++;
+        return *this;
+    }
+
+
+
+    string getNume() const {
+        return nume;
+    }
+
+    friend istream& operator>>(istream& tastatura, Avion& a);
+    friend ostream& operator<<(ostream& ecran, const Avion& a);
+
+    
+
+};
+
+istream& operator>>(istream& tastatura, Avion& a) {
+    cout << "Introduceti numele avionului: ";
+    tastatura >> a.nume;
+    cout << "Introduceti dimensiunea avionului: ";
+    tastatura >> a.dimensiunileAvionului;
+    cout << "Introduceti numarul intrarilor: ";
+    tastatura >> a.intrariAvion;
+    cout << "Introduceti elementele avionului: ";
+    
+    return tastatura;
+}
+
+ostream& operator<<(ostream& ecran, const Avion& a) {
+    ecran << "Id ul avionului este: " << a.getId() << endl;
+    ecran << "Numele avionului este:" << a.getNume() << endl;
+    ecran << "Dimensiunea avionului este de :" << a.getDimensiunileAvionului() << endl;
+    return ecran;
+}
+
+int Avion::dimensiunileAvionului = 100;
+
+
+class Tren {
+private:
+    const int id;
+    string nume;
+    int nrPreferinte;
+    int* numarPasageri;
+    static int numarTrenuri;
+
+public:
+    // Operatorul !
+    bool operator!() const {
+        return numarPasageri == nullptr || nrPreferinte == 0;
+    }
+
+    // CONSTRUCTOR 1
+    Tren() : id(100) {
+        this->nume = "Astra 2000";
+        this->nrPreferinte = 3;
+        this->numarPasageri = nullptr;
+    }
+
+    // CONSTRUCTOR 2
+    Tren(int idNou, string nume) : id(idNou), nume(nume), nrPreferinte(0), numarPasageri(nullptr) {}
+
+    // CONSTRUCTOR 3
+    Tren(int id, string nume, int nrPreferinte, int* numarPasageri) : id(id), nume(nume), nrPreferinte(nrPreferinte) {
+        this->nrPreferinte = nrPreferinte;
+        if (nrPreferinte != 0) {
+            this->numarPasageri = new int[nrPreferinte];
+            for (int i = 0; i < nrPreferinte; i++) {
+                this->numarPasageri[i] = numarPasageri[i];
+            }
+        }
+        else this->numarPasageri = nullptr;
+    }
+
+    // CONSTRUCTOR DE COPIERE
+    Tren(const Tren& other) : id(other.id) {
+        this->nume = other.nume;
+        this->nrPreferinte = other.nrPreferinte;
+
+        if (other.numarPasageri != nullptr) {
+            this->numarPasageri = new int[this->nrPreferinte];
+            for (int i = 0; i < this->nrPreferinte; i++) {
+                this->numarPasageri[i] = other.numarPasageri[i];
+            }
+        }
+        else {
+            this->numarPasageri = nullptr;
+        }
+    }
+
+    // DESTRUCTOR
+    ~Tren() {
+        delete[] numarPasageri;
+    }
+
+    void afisare() {
+        cout << "----------------------------------------------------------" << endl;
+        cout << "Id-ul trenului este: " << id << ". " << endl;
+        cout << "Trenul se numeste: " << nume << "." << endl;
+        cout << "Exista un numar de " << Tren::numarTrenuri << " trenuri si " << nrPreferinte << " preferinte. ";
+        if (numarPasageri != nullptr) {
+            cout << "Pasagerii sunt: ";
+            for (int i = 0; i < nrPreferinte; i++) {
+                cout << numarPasageri[i] << ",";
+            }
+        }
+        else {
+            cout << "Incap maxim 100 pasageri";
+        }
+        cout << endl;
+        cout << "--------------------------------------------------------" << endl;
+    }
+
+    // GETTERI
+    const int getId() {
+        return this->id;
+    }
+
+    const string getNume() {
+        return this->nume;
+    }
+
+    const int getNrPreferinte() {
+        return this->nrPreferinte;
+    }
+
+    const int* getNumarPasageri() {
+        return this->numarPasageri;
+    }
+
+    static int getNumarTrenuri() {
+        return numarTrenuri;
+    }
+
+    // SETTERI
+    void setNume(const string& nume) {
+        this->nume = nume;
+    }
+
+    void setNrPreferinte(int nrPreferinte) {
+        this->nrPreferinte = nrPreferinte;
+    }
+
+    void setNumarPasageri(const int* numarPasageri, int nrPreferinte) {
+        if (this->numarPasageri != nullptr) {
+            delete[] this->numarPasageri;
+        }
+        this->nrPreferinte = nrPreferinte;
+        this->numarPasageri = new int[nrPreferinte];
+        for (int i = 0; i < nrPreferinte; i++) {
+            this->numarPasageri[i] = numarPasageri[i];
+        }
+    }
+
+    static void setNumarTrenuri(int numar) {
+        if (numar > 0) {
+            numarTrenuri = numar;
+        }
+    }
+
+    friend istream& operator>>(istream& tastatura, Tren& t);
+
+    friend istream& operator>>(istream& tastatura, Tren& t) {
+        cout << "Introduceti numele trenului: ";
+        tastatura >> t.nume;
+        cout << "Introduceti numarul de preferinte: ";
+        tastatura >> t.nrPreferinte;
+
+        // Allocate memory for numarPasageri and read input
+        if (t.nrPreferinte > 0) {
+            t.numarPasageri = new int[t.nrPreferinte];
+            cout << "Introduceti numarul de pasageri pentru fiecare preferinta: ";
+            for (int i = 0; i < t.nrPreferinte; i++) {
+                tastatura >> t.numarPasageri[i];
+            }
+        }
+        else {
+            t.numarPasageri = nullptr;
+        }
+
+        return tastatura;
+    }
+
+
+};
+
+int Tren::numarTrenuri = 3;
+
+
+class Rulota {
+private:
+    const int id;
+    string nume;
+    int numarUsi;
+    int* dimensiuniRulota;
+    int poz;
+    static int nrRulote;
+public:
+    // Operatorul !
+    bool operator!() const {
+        return dimensiuniRulota == nullptr || poz == 0 || numarUsi <= 0;
+    }
+
+    // CONSTRUCTOR 1
+    Rulota() : id(9) {
+        this->nume = "Rulota vacanta";
+        this->numarUsi = 4;
+    }
+
+    // CONSTRUCTOR 2
+    Rulota(int idNou, string nume) : id(idNou) {
+        this->nume = "Rulota personala";
+        this->numarUsi = 5;
+        this->dimensiuniRulota = nullptr;
+    }
+
+    // CONSTRUCTOR 3
+    Rulota(int id, string nume, int nrUsi, int* dimensiuniRulota, int poz) : id(id) {
+        if (nrUsi != 0) {
+            this->dimensiuniRulota = new int[poz];
+            for (int i = 0; i < poz; i++) {
+                this->dimensiuniRulota[i] = dimensiuniRulota[i];
+            }
+        }
+        else this->dimensiuniRulota = nullptr;
+        this->numarUsi = nrUsi;
+        this->poz = poz;
+    }
+
+    // CONSTRUCTOR DE COPIERE
+    Rulota(const Rulota& other) : id(other.id) {
+        this->nume = other.nume;
+        this->numarUsi = other.numarUsi;
+        this->poz = other.poz;
+
+        if (other.dimensiuniRulota != nullptr) {
+            this->dimensiuniRulota = new int[this->poz];
+            for (int i = 0; i < this->poz; i++) {
+                this->dimensiuniRulota[i] = other.dimensiuniRulota[i];
+            }
+        }
+        else {
+            this->dimensiuniRulota = nullptr;
+        }
+    }
+
+    // DESTRUCTOR
+    ~Rulota() {
+        delete[] dimensiuniRulota;
+    }
+
+    void afisare() {
+        cout << "--------------------------------------------------" << endl;
+        cout << "Rulota are id-ul " << id << " si se numeste: " << nume << "." << endl;
+        cout << "Rulota are un numar de " << nrRulote << " rulote cu un numar de usi de " << numarUsi << endl;
+        cout << "Dimensiuni: ";
+
+        for (int i = 0; i < poz; i++) {
+            cout << dimensiuniRulota[i];
+        }
+
+        cout << "----------------------------------------------------" << endl;
+    }
+
+    // GETTERI
+    int getId() const {
+        return this->id;
+    }
+    
+
+    const string getNume() {
+        return this->nume;
+    }
+
+    const int getNumarUsi() {
+        return this->numarUsi;
+    }
+
+    const int getPoz() {
+        return this->poz;
+    }
+
+    static int getNrRulota() {
+        return nrRulote;
+    }
+
+    // SETTERI
+    void setNume(const string& nume) {
+        this->nume = nume;
+    }
+
+    void setNumarUsi(int numarUsi) {
+        this->numarUsi = numarUsi;
+    }
+
+    void setDimensiuniRulota(const int* dimensiuniRulota, int poz) {
+        if (this->dimensiuniRulota != nullptr) {
+            delete[] this->dimensiuniRulota;
+        }
+        this->poz = poz;
+        this->dimensiuniRulota = new int[poz];
+        for (int i = 0; i < poz; i++) {
+            this->dimensiuniRulota[i] = dimensiuniRulota[i];
+        }
+    }
+
+    static void setNrRulota(int numar) {
+        if (numar > 0) {
+            nrRulote = numar;
+        }
+    }
+
+    friend ostream& operator<<(ostream& ecran, const Rulota& c);
+    friend istream& operator>>(istream& tastatura, Rulota& c);
+
+    //supraincarcarea operatorului=
+    Rulota& operator=(const Rulota& other) {
+        if (this == &other) {
+            return *this;
+        }
+
+
+        this->nume = other.nume;
+        this->numarUsi = other.numarUsi;
+
+
+        if (this->dimensiuniRulota != NULL) {
+            delete[] this->dimensiuniRulota;
+            this->dimensiuniRulota = NULL;
+        }
+        this->poz = other.poz;
+        if (other.dimensiuniRulota != NULL) {
+            this->dimensiuniRulota = new int[this->poz];
+            for (int i = 0; i < this->poz; i++) {
+                this->dimensiuniRulota[i] = other.dimensiuniRulota[i];
+            }
+        }
+
+        return *this;
+    }
+    
+    friend istream& operator>>(istream& tastatura, Rulota& c);
+    friend ostream& operator<<(ostream& ecran, const Rulota& c);
+};
+istream& operator>>(istream& tastatura, Rulota& c) {
+    cout << "Introduceti numele rulotei: ";
+    tastatura >> c.nume;
+    cout << "Introduceti numarul usilor: ";
+    tastatura >> c.numarUsi;
+    cout << "Introduceti pozitia: ";
+    tastatura >> c.poz;
+    cout << "Introduceti dimensiunile rulotei: ";
+    if (c.dimensiuniRulota != nullptr) {
+        delete[] c.dimensiuniRulota;
+    }
+    c.dimensiuniRulota = new int[c.poz];
+    for (int i = 0; i < c.poz; i++) {
+        tastatura >> c.dimensiuniRulota[i];
+    }
+    return tastatura;
+}
+
+ostream& operator<<(ostream& ecran, const Rulota& c) {
+    ecran << "Id-ul rulotei este: " << c.getId() << ". " << endl;
+    return ecran;
+}
+
+
+int Rulota::nrRulote = 0;
+
+ostream& operator<<(ostream& ecran, const Rulota& c);
+istream& operator>>(istream& tastatura, Rulota& c);
+
+ostream& operator<<(ostream& ecran, const Avion& a);
+istream& operator>>(istream& tastatura, Avion& a);
+
+int main() {
+    Avion c;
+    Avion avion1;
+    avion1.afisare();
+    Avion avion2(101, "Airbus A340");
+    avion2.afisare();
+
+    Avion avion3(102, "Airbus 320-200", 8, 800);
+    avion3.afisare();
+
+    Avion avion4 = avion1;
+    if (!avion1) {
+        cout << "Avionul nu are nume sau nu are elemnte!" << endl;
+    }
+    else {
+        cout << "Avionul are nume si elemente!" << endl;
+    }
+
+
+    ////GETTERI SI SETTERI
+    cout << "Getter: " << endl;
+
+    Avion avion5;
+    cout << "-----------------------------------------" << endl;
+    cout << "Avionul are id-ul: " << avion5.getId() << "si se numeste: " << avion5.getNume() << ". Are " << avion5.getIntrariAvion() << " intrare." << endl;
+    cout << "-----------------------------------------" << endl;
+
+    cout << "Setter: " << endl;
+    Avion avion6;
+
+
+    //apel functii prietene
+    //ostream
+    Avion avion7;
+    cout << "Apel ostream: " << endl;
+
+    //istream
+    Avion avion8;
+    cout << "Apel istream: " << endl;
+
+
+    Tren tren1;
+    tren1.afisare();
+
+    Tren tren(101, "Astra 2000", 5, new int[5] {1, 2, 3, 4, 5});
+    tren1.afisare();
+
+
+    Tren tren2(101, "Astra 2003", 5, new int[5] {1, 2, 3, 4, 5});
+    tren2.afisare();
+
+    Tren  tren3(102, "Astra 1999", 2, new int[2] {1, 0});
+    tren3.afisare();
+
+    Tren  tren4 = tren1;
+    if (!tren1) {
+        cout << "Trenul nu are pasageri sau preferinte!" << endl;
+    }
+    else {
+        cout << "Trenul are pasageri sau preferinte!" << endl;
+    }
+
+
+    Rulota rulota1;
+    rulota1.afisare();
+    Rulota  rulota2(10, "Rulota Alba", 4, new int[3] {100, 200, 300}, 3);
+    rulota2.afisare();
+
+
+
+    if (!rulota1) {
+        cout << "Rulota nu are dimensiuni sau are un numar negativ de usi!" << endl;
+    }
+    else {
+        cout << "Rulota are dimensiuni si un numar pozitiv de usi!" << endl;
+    }
+    Rulota rulota3(11, "Rulota Neagra", 6, new int[2] {100, 200}, 2);
+    rulota3.afisare();
+
+    Rulota rulota4 = rulota1;
+
+    const int dimensiuneVector = 3;
+    const int dimensiuneMatrice = 2;
+
+    // Vector cu obiecte de tipul primei clase (Avion)
+    Avion vectorAvioane[dimensiuneVector];
+    cout << "Introduceti datele pentru obiectele de tip Avion:" << endl;
+    for (int i = 0; i < dimensiuneVector; i++) {
+        cin >> vectorAvioane[i];
+    }
+    cout << "Afisare obiecte de tip Avion:" << endl;
+    for (int i = 0; i < dimensiuneVector; i++) {
+        cout << vectorAvioane[i] << endl;
+    }
+
+    // Vector cu obiecte de tipul celei de-a doua clase (Tren)
+    Tren vectorTrenuri[dimensiuneVector];
+    cout << "Introduceti datele pentru obiectele de tip Tren:" << endl;
+    for (int i = 0; i < dimensiuneVector; i++) {
+        cin >> vectorTrenuri[i];
+    }
+    
+        
+    
+
+    // Vector cu obiecte de tipul celei de-a treia clase (Rulota)
+    Rulota vectorRulote[dimensiuneVector];
+    cout << "Introduceti datele pentru obiectele de tip Rulota:" << endl;
+    for (int i = 0; i < dimensiuneVector; i++) {
+        cin >> vectorRulote[i];
+    }
+    cout << "Afisare obiecte de tip Rulota:" << endl;
+    for (int i = 0; i < dimensiuneVector; i++) {
+        cout << vectorRulote[i] << endl;
+    }
+
+    // Matrice de obiecte de tipul celei de-a treia clase (Rulota)
+    Rulota matriceRulote[dimensiuneMatrice][dimensiuneMatrice];
+    cout << "Introduceti datele pentru obiectele de tip Rulota in matrice:" << endl;
+    for (int i = 0; i < dimensiuneMatrice; i++) {
+        for (int j = 0; j < dimensiuneMatrice; j++) {
+            cin >> matriceRulote[i][j];
+        }
+    }
+    cout << "Afisare obiecte de tip Rulota din matrice:" << endl;
+    for (int i = 0; i < dimensiuneMatrice; i++) {
+        for (int j = 0; j < dimensiuneMatrice; j++) {
+            cout << matriceRulote[i][j] << endl;
+        }
+    }
+
+    return 0;
+
+
+}
